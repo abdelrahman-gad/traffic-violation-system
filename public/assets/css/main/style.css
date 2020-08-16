@@ -1,0 +1,150 @@
+
+
+/*
+ SOME GIVEN INFORAMTION
+ colors required 
+ 1-purble :#634987; mainColor
+ 2-lightpurple :#60467e; used in hover
+
+*/
+
+
+
+
+/* general styles */
+
+body{
+  background-color:#634987 !important;
+}
+
+.intro-title , .intro-subtitle {
+color: #fff;
+}
+
+/* end general styles */
+
+
+
+/* start sidenav */
+.sidenav {
+height: 100%;
+width: 250px;
+position: fixed;
+z-index: 1;
+top: 0;
+left: 0;
+background-color: #fff;
+overflow-x: hidden;
+padding-top: 20px;
+}
+.sidenav .sidenav-img{
+   width: 80%;
+}
+
+.sidenav a ,.sidenav button.logout {
+padding: 6px 8px 6px 16px;
+text-decoration: none;
+font-size: 25px;
+color: #60467e !important; 
+display: block;
+/* border:1px solid #333; */
+/* transition: all 0.3s ease-in; */
+}
+.logout{
+background: transparent;
+border: none;
+width: 100%;
+}
+
+
+.sidenav a:hover , .sidenav button.logout:hover {
+color: #f1f1f1 !important;
+background-color: #60467e !important;
+}
+
+.sidenav a.active{
+color: #f1f1f1 !important;
+background-color: #60467e !important;
+}
+/* end sidenav */
+
+
+
+
+/* start main content */
+.main {
+/* margin-left: 160px; Same as the width of the sidenav */
+font-size: 28px; /* Increased text to enable scrolling */
+padding: 0px 10px;
+}
+/* end main */
+
+
+
+
+
+
+/* styles of forms  */
+form{
+border: 1px solid #333;
+padding: 40px;
+background-color: #fff;
+border-radius: 5px;
+}
+.form-control:focus {
+border:2px solid #634987 !important;
+box-shadow: none; 
+}
+
+form .form-title{
+color: #634987;
+}
+
+.btn-admin{
+background-color: #60467e !important;
+color: #fff;
+}
+.btn-admin:hover{
+background-color: #634987 !important;
+color: #fff;
+}
+
+/* end styles of form */
+
+
+/* logout form */
+.logout-form{
+  height: 60px;
+  width: 100%;
+  display: block;
+  padding: 0;
+  border: none;
+}
+.logout-form .logout-btn{
+  height: 100%;
+  width: 100%;
+  color:#634987;
+  font-size: 24px;
+  background-color: #fff;
+  border: none;
+}
+.logout-form .logout-btn:hover{
+  background-color: #60467e;
+  color: #fff;
+}
+/* end logout form */
+
+
+
+
+/* start mediaquiry */
+
+/* start navbar */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+/* end navbar */
+
+/* end media query */
