@@ -108,10 +108,6 @@ handleSubmit = (e) => {
    const waitBlock = <div className="wait text danger"> wait  </div>
   
    
-     
-
-
-
   
     if( auth.isEmpty === true || auth.uid !== adminId){
       console.log(auth.uid);
