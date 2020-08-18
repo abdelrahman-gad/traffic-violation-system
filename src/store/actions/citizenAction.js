@@ -5,7 +5,7 @@
 export const addCitizen = (citizenData) =>{
     return (dispatch,getState,{getFirebase,getFirestore})=>{
         const firebase = getFirebase();
-        const firestore = getFirestore();
+        
         console.log('addCitizen actions');
         console.log(citizenData);
 
@@ -23,11 +23,12 @@ export const addCitizen = (citizenData) =>{
                         email:citizenData.licenceNumber+'@citizen.com',
                         id:resp.user.uid
                     });
+                    firebase.auth().signInWithEmailAndPassword('admin@admin.com','admin123');
         
-                    }).then(()=>{
-                        
-                            dispatch({type:'ADD_CITIZEN_SUCCESS'});
-                    }).catch((err)=>{
+                    }).then(()=>{                         
+                       dispatch({type:'ADD_CITIZEN_SUCCESS'});
+                    })
+                    .catch((err)=>{
                             dispatch({type:'ADD_CITIZEN_ERROR',err});//payload = error
                     });
              

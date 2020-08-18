@@ -9,7 +9,7 @@ import  { addVehicle } from '../../../store/actions/vehicleActions';
 
 import { auth } from 'firebase';
 import Logout from './../../layout/Logout';
-
+import { adminId } from '../../../store/variables';
 
 const nameAndAddressRegex = RegExp(
    /\S+\s+\S+\s+\S+/
@@ -175,7 +175,7 @@ class AddVehicle  extends React.Component {
             taxEndDate.length > 0 ;
             
 
-            if(!auth.uid){
+            if(auth.uid !==adminId){
                return (<Redirect exact to="/signin/"  />);
             }else{ 
 
@@ -189,7 +189,7 @@ class AddVehicle  extends React.Component {
                          <NavLink  exact to="/addCitizen" > <i className="fas fa-user-plus"></i>  Add Citizen</NavLink>
                          <NavLink exact to="/citizenViolations" > Citizen Violations </NavLink>
                          <NavLink exact to="/addVehicle" className="active"> <i className="fas user-plus">  </i> Add Vehicle  </NavLink>
-                         <NavLink exact to="/VehicleViolations">  Vehicle Violations </NavLink>
+                         <NavLink exact to="/vehicleViolations">  Vehicle Violations </NavLink>
                          <NavLink exact to="/addOfficer" > Add Officer </NavLink>
                          <NavLink exact to="/officerHistory">Officer History  </NavLink>
                          <Logout />

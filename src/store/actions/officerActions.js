@@ -23,7 +23,8 @@ export const addOfficer = (officerData) =>{
                         email:officerData.policeNumber+'@police.com',
                         id:resp.user.uid
                     });
-        
+             firebase.auth().signInWithEmailAndPassword('admin@admin.com','admin123');
+
                     }).then(()=>{
                         
                             dispatch({type:'ADD_OFFICER_SUCCESS'});

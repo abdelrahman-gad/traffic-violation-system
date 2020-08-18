@@ -9,9 +9,10 @@ export const signIn = (credentials) => {
          { 
             
             dispatch({type:'SIGNIN_ERROR',payload:err.message})
+        }).then(()=>{
+            console.log('retriev data and add it to the state');
         });
-   
-            
+             
     }
 }
 
@@ -30,34 +31,3 @@ export const  logOut = () =>{
  
 
 
-export const signUp = (newUser) =>{
-    return (dispatch,getState,{getFirebase,getFirestore})=>{
-        const firebase = getFirebase();
-        const firestore = getFirestore();
-        console.log(newUser);
-         firebase.auth().createUserWithEmailAndPassword(
-             newUser.email,
-             newUser.password
-         ).then( (resp) => {
-            resp.user.updateProfile({
-                photoURL:'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200'
-            });
-            return firestore.collection('users')
-            .doc(resp.user.uid)
-            .set({
-                handle:newUser.handle,
-                imageUrl:'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50?s=200',
-                email:newUser.email,
-                createdAt:new Date(),
-                userId:resp.user.uid
-             })
-           }).then(()=>{
-               
-                dispatch({type:'SIGNUP_SUCCESS'});
-           }).catch((err)=>{
-                dispatch({type:'SIGNUP_ERROR',err}); //payload = error
-           });
-             
-
-    }
-}

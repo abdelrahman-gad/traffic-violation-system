@@ -8,14 +8,8 @@ import {  Redirect ,NavLink } from 'react-router-dom';
 import  { addCitizen } from '../../../store/actions/citizenAction';
 import { auth } from 'firebase';
 import Logout from './../../layout/Logout';
+import {adminId,nameAndAddressRegex,phoneRegex} from './../../../store/variables';
 
-
-const nameAndAddressRegex = RegExp(
-   /\S+\s+\S+\s+\S+/
-); 
-const phoneRegex = RegExp(
-   /(201)[0-9]{9}/
- );
 
 
 class AddCitizen  extends React.Component {
@@ -80,8 +74,7 @@ class AddCitizen  extends React.Component {
             console.log(`--FORM SUBMITTING FORM ERROR--`);
          }else{
             console.log(`--FORM INPUTS VALID--`);
-            const {
-              
+            const {             
                name,
                phone,
                address,
@@ -94,7 +87,7 @@ class AddCitizen  extends React.Component {
                licenceType,
                licenceNumber
               }= this.state;
-             let citizenData = { 
+             let citizenData =  { 
                                  name,
                                  phone,
                                  address,
@@ -188,6 +181,8 @@ class AddCitizen  extends React.Component {
          
         }
      render(){
+       
+
         const {auth} = this.props;
         const {
            formErrors,
@@ -216,11 +211,11 @@ class AddCitizen  extends React.Component {
             station.length > 0 &&
             nationality.length > 0;
 
-            if(!auth.uid){
+            if(auth.uid !== adminId){
                return (<Redirect exact to="/signin/"  />);
             }else{ 
 
-          return (
+             return (
               
                 <div className="row">
                     <div className="col-sm-2">
@@ -234,7 +229,7 @@ class AddCitizen  extends React.Component {
                          <NavLink exact to="/addOfficer"> Add Officer </NavLink>
                          <NavLink exact to="/officerHistory">Officer History  </NavLink>
                          <Logout />
-                         </div>
+                      </div>
                     </div>
                     <div className="col-sm-9 offset-sm-1 p-4">
              

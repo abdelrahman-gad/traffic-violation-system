@@ -17,7 +17,10 @@ import 'firebase/storage';
 };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
- 
+  
+
+
+
  export  const storage = firebase.storage();
 
   export  {   firebase as default};  

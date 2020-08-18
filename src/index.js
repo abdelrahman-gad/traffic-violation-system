@@ -14,7 +14,7 @@ import * as serviceWorker from './serviceWorker';
  import rootReducer from './store/reducers/rootReducer';
 import thunk from 'redux-thunk';
 import {
-  createFirestoreInstance,
+  
   getFirestore,
   reduxFirestore
 } from "redux-firestore";
@@ -25,9 +25,12 @@ console.log(isLoaded);
 
 function AuthIsLoaded({ children }) {
   const auth = useSelector(state => state.firebase.auth)
-  if (!isLoaded(auth)) return <h1 className="text-white text-large">PlZ, Wait for loading data </h1>;
-  return children
+  if (!isLoaded(auth)) return <h1 className="text-white text-large text-center m-auto">PlZ, Wait for loading data </h1>;
+  return children;
 }
+
+
+
 
 
 //
@@ -55,8 +58,7 @@ const rrfProps = {
   config: {
       ...fbConfig
     } ,   
-  dispatch: store.dispatch,
-  createFirestoreInstance
+  dispatch: store.dispatch
 };
 
 
@@ -68,7 +70,9 @@ ReactDOM.render(
       <ReactReduxFirebaseProvider {...rrfProps}>
         {/* <BrowserRouter> */}
           <AuthIsLoaded>
+        
                <App/>  { /* Rest of App Components */}
+          
           </AuthIsLoaded>
         {/* </BrowserRouter> */}
       </ReactReduxFirebaseProvider>
@@ -78,21 +82,4 @@ document.getElementById('root')
 );
 
 
-
-
-
-// ReactDOM.render(
-  
-//     <Provider store={store}>
-//     <ReactReduxFirebaseProvider {...rrfProps}>   
-//       <App />
-//     </ReactReduxFirebaseProvider>
-//   </Provider>
-//   ,
-//   document.getElementById('root')
-// );
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();

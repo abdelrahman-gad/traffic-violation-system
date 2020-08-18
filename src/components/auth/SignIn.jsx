@@ -1,11 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {Redirect,NavLink} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import {signIn } from '../../store/actions/authActions';
+import {emailRegex,adminId,adminEmail,adminPassword} from '../../store/variables';
 
-const emailRegex = RegExp(
-  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-);
 
 const formNotValid = ({formErrors,...rest}) =>{
   let valid = true;
@@ -20,9 +18,11 @@ const formNotValid = ({formErrors,...rest}) =>{
         val === null && (valid = false);
  });
 
-
+   
   return valid;
 }
+
+
 
 
 class SignIn  extends React.Component{
@@ -32,12 +32,14 @@ class SignIn  extends React.Component{
       this.state={
         email:"",
         password:"",
-       
+        notAdminCreds:false,    
         formErrors:{
           email:'',
           password:''
         }
       }
+
+
       this.handleSubmit=this.handleSubmit.bind(this);
       this.handleChange=this.handleChange.bind(this);
   }
@@ -70,84 +72,104 @@ handleSubmit = (e) => {
      console.log('handleSubmit method');
     //  add validation rules before submitting values
     
-    if(formNotValid(this.state)){ //if for
-      
-      console.log(`--FORM SUBMITTING FORM ERROR-- `);
-
+    if(formNotValid(this.state)){      
+      console.log(`--FORM SUBMITTING FORM ERROR-- `);            
     }else{ 
         console.log(`  VALID INPUTS  `);
             //end validation rules
-            this.props.signIn(this.state);
+            if(this.state.email !== adminEmail || this.state.password !==adminPassword ){
+              this.setState({
+                notAdminCreds:true
+              });
+            }else{
+              this.props.signIn(this.state);
+              this.setState({
+                notAdminCreds:false
+              });
+            }
     }
       
 }
-render(){
+ 
+
+
+ render(){
   console.log(this.props.auth);
   const {auth} =this.props;
-  if(auth.uid){
-    return (<Redirect exact to="/" />);
-  } 
-   const {formErrors ,email,password }  = this.state;
+
+  const {formErrors , email , password , notAdminCreds }  = this.state;
   
-   const enabled =
+   console.log('test auth Object'+ auth );
+
+  const enabled =
           email.length > 0 &&
-          password.length > 0;
+          password.length > 0 ;
+  
+   const waitBlock = <div className="wait text danger"> wait  </div>
+  
+   
+     
 
-  return (
-    <div className="">
+
+
+  
+    if( auth.isEmpty === true || auth.uid !== adminId){
+      console.log(auth.uid);
+      return (
+        <div>       
+          <div className="row p-3">       
+            <div className="col-sm-9 mx-auto col-lg-6 offset-lg-0 mb-0">
+              <form onSubmit={this.handleSubmit}>
+                <h2 className="form-title text-center pb-3">
+                 Admin Login Page
+                </h2>
+                <h4 className="text-danger text-center "> {notAdminCreds && "Not admin valid credentials" } </h4>
+                <div className="form-group">
+                    <input 
+                       type="email"
+                       className={formErrors.email.length > 0 ? "form-control border border-danger" : "form-control"}
+                       aria-describedby="emailHelp"
+                       placeholder="email"
+                       id="email"
+                       name="email"
+                       onChange={this.handleChange}
+                       noValidate
+                     />
+                     {formErrors.email.length > 0 &&
+                       ( <p className="text-danger"> {formErrors.email} </p> )
+                      }
+                  </div>
     
-    <div className="row p-3">
-       
-        <div className="col-sm-9 mx-auto col-lg-6 offset-lg-0 mb-0">
-          <form onSubmit={this.handleSubmit}>
-            <h3 className="form-title text-center pb-3">
-             Admin Login Page
-            </h3>
-            <div className="form-group">
-                <input 
-                   type="email"
-                   className={formErrors.email.length > 0 ? "form-control border border-danger" : "form-control"}
-                   aria-describedby="emailHelp"
-                   placeholder="email"
-                   id="email"
-                   name="email"
-                   onChange={this.handleChange}
-                   noValidate
-                 />
-                 {formErrors.email.length > 0 &&
-                   ( <p className="text-danger"> {formErrors.email} </p> )
-                 }
-              </div>
-
-           <div className="form-group">
-              <input
-                 type="password"
-                 className={formErrors.password.length > 0 ? "form-control border border-danger" : "form-control"}
-                 placeholder="password"
-                 id="password"
-                 name="password"
-                 onChange={this.handleChange}
-                 
-                 noValidate
-             
-                 />
-                   {formErrors.password.length > 0 &&
-                   ( <p className="text-danger"> {formErrors.password} </p> )
-                 }
-            </div>
-
-            <button  className="btn btn-primary btn-block btn-admin"  disabled={!enabled}>Log In </button>
-          </form>
-      </div>
+               <div className="form-group">
+                  <input
+                     type="password"
+                     className={formErrors.password.length > 0 ? "form-control border border-danger" : "form-control"}
+                     placeholder="password"
+                     id="password"
+                     name="password"
+                     onChange={this.handleChange}                
+                     noValidate           
+                     />
+                       {formErrors.password.length > 0 &&
+                       ( <p className="text-danger"> {formErrors.password} </p> )
+                     }
+                </div>
+    
+                <button  className="btn btn-primary btn-block btn-admin"  disabled={!enabled}>Log In </button>
+              </form>
+           </div>
+           </div>
+              
+        </div>
+        
+          );
+    } 
       
-      </div>
-      
-</div>
-
-  );
- 
-}
-
+   else{
+         return (<Redirect exact to="/" />);
+     }  
+    
+  }
 }
 
 const mapDispatchToProps = (dispatch) =>{

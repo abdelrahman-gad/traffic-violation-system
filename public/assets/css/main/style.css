@@ -16,10 +16,12 @@
 body{
   background-color:#634987 !important;
 }
-
-.intro-title , .intro-subtitle {
-color: #fff;
+.text-purple{
+  color:#634987;
 }
+
+
+
 
 /* end general styles */
 

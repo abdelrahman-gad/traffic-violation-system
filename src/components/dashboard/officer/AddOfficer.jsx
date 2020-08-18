@@ -8,14 +8,7 @@ import {  Redirect ,NavLink } from 'react-router-dom';
 import  { addOfficer } from '../../../store/actions/officerActions';
 import { auth } from 'firebase';
 import Logout from './../../layout/Logout';
-
-
-const nameAndAddressRegex = RegExp(
-   /\S+\s+\S+\s+\S+/
-); 
-const phoneRegex = RegExp(
-   /(201)[0-9]{9}/
- );
+import {adminId,nameAndAddressRegex} from './../../../store/variables';
 
 
 class AddOfficer  extends React.Component {
@@ -23,14 +16,12 @@ class AddOfficer  extends React.Component {
    
    state={
     name:'',
-   
     degree:'',
     policeNumber:'',
     nationalId:'',
     workPlace:'' ,
       formErrors:{
-        name:'',
-       
+        name:'',      
         degree:'',
         policeNumber:'',
         nationalId:'',
@@ -67,18 +58,15 @@ class AddOfficer  extends React.Component {
             console.log(`--FORM SUBMITTING FORM ERROR--`);
          }else{
             console.log(`--FORM INPUTS VALID--`);
-            const {
-              
-               name,
-               
+            const {            
+               name,              
                policeNumber,
                workPlace,
                nationalId,
                degree
               }= this.state;
              let officerData = { 
-                name,
-               
+                name,            
                 policeNumber,
                 workPlace,
                 nationalId,
@@ -89,8 +77,7 @@ class AddOfficer  extends React.Component {
       
 
          this.setState({
-            name:'',
-            
+            name:'',         
             degree:'',
             policeNumber:'',
             nationalId:'',
@@ -124,7 +111,7 @@ class AddOfficer  extends React.Component {
                      break;          
           
           case 'nationalId':
-               formErrors.nationalId=value.length < 14 ? " 14  characters at least required for  national Id ": "" ;   
+                formErrors.nationalId = Number(value) && value.length===14 ? "": " national Id should be 14 numbers length " ;   
                break;
          
          case 'workPlace':
@@ -144,24 +131,21 @@ class AddOfficer  extends React.Component {
         const {auth} = this.props;
         const {
            formErrors,
-           name,
-       
+           name,       
            workPlace,
            nationalId,
            degree,
-           policeNumber
-          
+           policeNumber      
           }= this.state;
         const enabled =
-            name.length > 0 &&
-                
+            name.length > 0 &&          
             nationalId.length > 0 &&
             workPlace.length > 0 &&
             policeNumber.length > 0 &&
             degree.length > 0 ;
             
-
-            if(!auth.uid){
+         
+            if(auth.uid !== adminId){
                return (<Redirect exact to="/signin/"  />);
             }else{ 
 
@@ -311,16 +295,19 @@ class AddOfficer  extends React.Component {
                           
                         
 
-                     <button type="submit" className="btn btn-admin btn-block" disabled={!enabled} > <i className="fas fa-plus"></i> Add Citizen</button> 
+                     <button type="submit" className="btn btn-admin btn-block" disabled={!enabled} > <i className="fas fa-plus"></i> Add Officer</button> 
                   </form>
                    
                                       
+               </div>
             </div>
-         </div>
-               
-      ); 
-         }
+                  
+            ); 
+     
+     
+          }
 
+        
             
      }
 

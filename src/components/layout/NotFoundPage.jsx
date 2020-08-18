@@ -1,6 +1,4 @@
 import React  from 'react';
-import SigndInLinks from './SignedInLinks';
-import SignedOutLinks from './SignedOutLinks';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -11,7 +9,7 @@ class Navbar extends React.Component {
         
         return(
             <section className="container">         
-              <h1 className="text-danger">  Unfortionately , There isn't any page math this link </h1>
+              <h1 className="text-white ">  Sorry  , There isn't any page match this URL  (: </h1>
            </section>     
         );
     }
@@ -23,8 +21,7 @@ class Navbar extends React.Component {
 
 const mapStateToProps = (state) => {
      return{
-         auth:state.firebase.auth ,
-         profile:state.firebase.profile
+         auth:state.firebase.auth 
      }
 }
 
